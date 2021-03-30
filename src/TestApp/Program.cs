@@ -56,7 +56,7 @@ namespace TestApp
 
             client.ReceiveUpdates = book =>
             {
-                Console.WriteLine($"t1: {book.GetTime():O}");
+                Console.WriteLine($"t1: {book.GetTime().UtcDateTime:O}");
                 if (log)
                     Console.WriteLine($"Receive updates for {book.id}");
 
@@ -124,6 +124,21 @@ namespace TestApp
                 {
                     var market = marketStateClient.GetMarketState();
                     Console.WriteLine($"Count spot markets {market.Count(e => e.type == MarketState.SpotType)}, future markets {market.Count(e => e.type == MarketState.FutureType)}");
+                }
+                if (cmd.StartsWith("market"))
+                {
+                    var prm = cmd.Split(' ');
+                    if (prm.Length != 2)
+                        continue;
+
+                    var asset = prm[1];
+
+                    var markets = marketStateClient.GetMarketState().Where(e => e.baseCurrency == asset || e.quoteCurrency == asset);
+
+                    foreach (var market in markets)
+                    {
+                        Console.WriteLine($"{market.id} {market.type} {market.enabled}");
+                    }
                 }
                 else
                 {
