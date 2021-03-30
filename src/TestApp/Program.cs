@@ -56,6 +56,7 @@ namespace TestApp
 
             client.ReceiveUpdates = book =>
             {
+                Console.WriteLine($"t1: {book.GetTime():O}");
                 if (log)
                     Console.WriteLine($"Receive updates for {book.id}");
 
@@ -74,6 +75,18 @@ namespace TestApp
                 }
                 else if (cmd == "reset")
                 {
+                    client.Reset("BTC/USD").Wait();
+                }
+                else if (cmd == "time")
+                {
+                    var book = client.GetOrderBookById("BTC/USD");
+
+                    Console.WriteLine($"nw: {DateTimeOffset.UtcNow:O}");
+                    Console.WriteLine($"t1: {book.GetTime():O}");
+
+
+
+
                     client.Reset("BTC/USD").Wait();
                 }
                 else

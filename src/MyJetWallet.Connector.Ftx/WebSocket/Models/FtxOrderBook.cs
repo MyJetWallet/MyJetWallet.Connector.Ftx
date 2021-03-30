@@ -1,5 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,6 +32,15 @@ namespace MyJetWallet.Connector.Ftx.WebSocket.Models
                 bids = bids.OrderByDescending(e => e.GetFtxOrderBookPrice()).ToList()
             };
 
+            return result;
+        }
+
+        public DateTimeOffset GetTime()
+        {
+            var unixtime = (long)Math.Truncate(time);
+
+            var result = DateTimeOffset.FromUnixTimeSeconds(unixtime);
+            
             return result;
         }
     }
