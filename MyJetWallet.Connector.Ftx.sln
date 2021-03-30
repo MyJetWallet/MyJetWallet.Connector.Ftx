@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJetWallet.Connector.Ftx", "src\MyJetWallet.Connector.Ftx\MyJetWallet.Connector.Ftx.csproj", "{1CC5B187-538A-4A55-805D-63A83F2A23D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "src\TestApp\TestApp.csproj", "{4045544C-D474-4794-95D3-3DFC62BFB0EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Debug|x64.Build.0 = Debug|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Debug|x86.Build.0 = Debug|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Release|x64.ActiveCfg = Release|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Release|x64.Build.0 = Release|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Release|x86.ActiveCfg = Release|Any CPU
+		{1CC5B187-538A-4A55-805D-63A83F2A23D3}.Release|x86.Build.0 = Release|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Debug|x64.Build.0 = Debug|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Debug|x86.Build.0 = Debug|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|x64.ActiveCfg = Release|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|x64.Build.0 = Release|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2171B0CF-BCCA-4490-A7F7-A6687CDBB0B9}
+	EndGlobalSection
+EndGlobal
