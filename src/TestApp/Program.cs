@@ -8,10 +8,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using MyJetWallet.Connector.Ftx.Rest;
 using MyJetWallet.Connector.Ftx.WebSocket;
 using MyJetWallet.Connector.Ftx.WebSocket.Models;
 using MyJetWallet.Connector.Ftx.WsEngine;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using JsonConverter = Newtonsoft.Json.JsonConverter;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -27,7 +29,37 @@ namespace TestApp
 
         static async Task Main(string[] args)
         {
+            //TestWebSocket();
 
+            Console.WriteLine(Environment.GetEnvironmentVariable("API-SECRET"));
+            Console.WriteLine(Environment.GetEnvironmentVariable("API-KEY"));
+
+
+            var client = new FtxClient(Environment.GetEnvironmentVariable("API-SECRET"), Environment.GetEnvironmentVariable("API-KEY"));
+
+            var account = await client.GetAccount();
+
+
+            var acc = JObject.Parse(account);
+
+            Console.WriteLine(acc.ToString(Formatting.Indented));
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            var balance = await client.GetWalletBalance();
+
+
+            Console.WriteLine(JsonConvert.SerializeObject(balance, Formatting.Indented));
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+
+        }
+
+        private static void TestWebSocket()
+        {
             using ILoggerFactory loggerFactory =
                 LoggerFactory.Create(builder =>
                     builder.AddSimpleConsole(options =>
