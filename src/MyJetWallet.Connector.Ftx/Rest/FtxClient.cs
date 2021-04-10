@@ -19,20 +19,24 @@ namespace MyJetWallet.Connector.Ftx.Rest
 
         private string ServerUrl => "https://ftx.com";
 
+        private RestClient _client;
+
         public FtxClient(string secret, string key, string subaccount = "")
         {
             this._Secret = secret;
             this._Key = key;
             this._SUBACCOUNT = subaccount;
+
+            _client = new RestClient(ServerUrl);
         }
 
         public async Task<string> GetAccount()
         {
             var method = Method.GET;
             var endpoint = $"/api/account";
-            var client = new RestClient(ServerUrl);
+            _client = new RestClient(ServerUrl);
             var request = GetAuthRequest(endpoint, method);
-            var response = await client.ExecuteAsync(request);
+            var response = await _client.ExecuteAsync(request);
             if (response.IsSuccessful)
             {
                 return response.Content;
@@ -48,9 +52,9 @@ namespace MyJetWallet.Connector.Ftx.Rest
         {
             var method = Method.GET;
             var endpoint = $"/api/wallet/balances";
-            var client = new RestClient(ServerUrl);
+            _client = new RestClient(ServerUrl);
             var request = GetAuthRequest(endpoint, method);
-            var response = await client.ExecuteAsync<ResponseBase<WalletBalanceDto>>(request);
+            var response = await _client.ExecuteAsync<ResponseBase<WalletBalanceDto>>(request);
             if (response.IsSuccessful)
             {
                 if (response.Data.success)
@@ -73,9 +77,9 @@ namespace MyJetWallet.Connector.Ftx.Rest
         {
             var method = Method.GET;
             var endpoint = $"/api/spot_margin/offers";
-            var client = new RestClient(ServerUrl);
+            _client = new RestClient(ServerUrl);
             var request = GetAuthRequest(endpoint, method);
-            var response = client.Execute<ResponseBase<SpotMarginOfferDto>>(request);
+            var response = _client.Execute<ResponseBase<SpotMarginOfferDto>>(request);
             if (response.IsSuccessful)
             {
                 return response.Data.result;
@@ -91,9 +95,9 @@ namespace MyJetWallet.Connector.Ftx.Rest
         {
             var method = Method.GET;
             var endpoint = $"/api/spot_margin/lending_info";
-            var client = new RestClient(ServerUrl);
+            _client = new RestClient(ServerUrl);
             var request = GetAuthRequest(endpoint, method);
-            var response = client.Execute<ResponseBase<SpotMarginLendingInfoDto>>(request);
+            var response = _client.Execute<ResponseBase<SpotMarginLendingInfoDto>>(request);
             if (response.IsSuccessful)
             {
                 return response.Data.result;
@@ -108,11 +112,11 @@ namespace MyJetWallet.Connector.Ftx.Rest
         {
             var method = Method.POST;
             var endpoint = $"/api/spot_margin/offers";
-            var client = new RestClient(ServerUrl);
+            _client = new RestClient(ServerUrl);
             var jsonStr = System.Text.Json.JsonSerializer.Serialize(data);
             var request = GetAuthRequest(endpoint, method, jsonStr);
             request.AddParameter("application/json", jsonStr, ParameterType.RequestBody);
-            var response = client.Execute<ResponseBase<object>>(request);
+            var response = _client.Execute<ResponseBase<object>>(request);
             if (response.IsSuccessful)
             {
                 return response.Content;
