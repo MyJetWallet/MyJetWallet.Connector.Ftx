@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Rest\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference PrivateAssets="All" Include="..\FtxApi\FtxApi.csproj" />
   </ItemGroup>
 
