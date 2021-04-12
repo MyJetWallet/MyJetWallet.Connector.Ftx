@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackageProjectUrl>https://github.com/MyJetWallet/MyJetWallet.Connector.Ftx</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MyJetWallet/MyJetWallet.Connector.Ftx</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
