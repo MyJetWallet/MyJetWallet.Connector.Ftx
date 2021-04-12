@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading;
+using System.Text.Json;
 using System.Threading.Tasks;
+using FtxApi;
+using FtxApi.Enums;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using MyJetWallet.Connector.Ftx.Rest;
 using MyJetWallet.Connector.Ftx.WebSocket;
 using MyJetWallet.Connector.Ftx.WebSocket.Models;
 using MyJetWallet.Connector.Ftx.WsEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using JsonConverter = Newtonsoft.Json.JsonConverter;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace TestApp
@@ -35,29 +31,81 @@ namespace TestApp
             Console.WriteLine(Environment.GetEnvironmentVariable("API-KEY"));
 
 
-            var client = new FtxClient(Environment.GetEnvironmentVariable("API-SECRET"), Environment.GetEnvironmentVariable("API-KEY"));
+            var client = new Client(Environment.GetEnvironmentVariable("API-KEY"), Environment.GetEnvironmentVariable("API-SECRET"));
+            var api = new FtxRestApi(client);
 
-            var account = await client.GetAccount();
+            Console.WriteLine(" ====  account info ==== ");
+            var info = await api.GetAccountInfoAsync();
+            Console.WriteLine(JsonSerializer.Serialize(info, new JsonSerializerOptions() { WriteIndented = true }));
+            Console.WriteLine();
+            Console.WriteLine();
 
+            var takerFee = info.Result.TakerFee;
 
-            var acc = JObject.Parse(account);
-
-            Console.WriteLine(acc.ToString(Formatting.Indented));
+            Console.WriteLine(" ====  order 1 ==== ");
+            var order1 = await api.GetOrderStatusAsync("39134620341");
+            Console.WriteLine(JsonSerializer.Serialize(order1, new JsonSerializerOptions() { WriteIndented = true }));
 
             Console.WriteLine();
             Console.WriteLine();
 
-            var balance = await client.GetWalletBalance();
 
-
-            Console.WriteLine(JsonConvert.SerializeObject(balance, Formatting.Indented));
+            Console.WriteLine(" ====  balances ==== ");
+            var balances = await api.GetBalancesAsync();
+            Console.WriteLine(JsonSerializer.Serialize(balances, new JsonSerializerOptions() { WriteIndented = true }));
 
             Console.WriteLine();
             Console.WriteLine();
 
 
+            var newOrderClientId = "my-order-21";
+            var size = 10m;
+            //var side = SideType.buy;
+
+            //var volume = side == SideType.buy ? size * (1m + takerFee) : ;
+
+            Console.WriteLine($" ====  place: {newOrderClientId} ==== ");
+            var marketOrder = await api.PlaceOrderAsync("XRP/USD", SideType.buy, 0, OrderType.market, size, newOrderClientId, true);
+            Console.WriteLine(JsonSerializer.Serialize(marketOrder, new JsonSerializerOptions() { WriteIndented = true }));
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine($" ====  cancel order: {newOrderClientId} ==== ");
+            var cancel = await api.CancelOrderByClientIdAsync(newOrderClientId);
+            Console.WriteLine(JsonSerializer.Serialize(cancel, new JsonSerializerOptions() { WriteIndented = true }));
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine($" ====  order: {newOrderClientId} ==== ");
+            var order3 = await api.GetOrderStatusByClientIdAsync(newOrderClientId);
+            Console.WriteLine(JsonSerializer.Serialize(order3, new JsonSerializerOptions() { WriteIndented = true }));
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+
+            Console.WriteLine(" ====  balances ==== ");
+            var balances2 = await api.GetBalancesAsync();
+            Console.WriteLine($"{balances.Result.FirstOrDefault(e => e.Coin == "XRP")?.Total} XRP");
+            Console.WriteLine($"{balances2.Result.FirstOrDefault(e => e.Coin == "XRP")?.Total} XRP");
+            Console.WriteLine("-------");
+            Console.WriteLine($"{balances.Result.FirstOrDefault(e => e.Coin == "FTT")?.Total} FTT");
+            Console.WriteLine($"{balances2.Result.FirstOrDefault(e => e.Coin == "FTT")?.Total} FTT");
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+
+            Console.WriteLine($" ====  fills ==== ");
+            var fills = await api.GetFillsAsync(10, DateTime.UtcNow.Date);
+            Console.WriteLine(JsonSerializer.Serialize(fills, new JsonSerializerOptions() { WriteIndented = true }));
+
+            Console.WriteLine();
+            Console.WriteLine();
         }
-
+        
         private static void TestWebSocket()
         {
             using ILoggerFactory loggerFactory =
@@ -256,6 +304,16 @@ namespace TestApp
         }
     }
 
+
+    public class ResultId
+    {
+        public Data result { get; set; }
+
+        public class Data
+        {
+            public string id { get; set; }
+        }
+    }
 
 }
 

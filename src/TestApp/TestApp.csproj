@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FtxApi\FtxApi.csproj" />
     <ProjectReference Include="..\MyJetWallet.Connector.Ftx\MyJetWallet.Connector.Ftx.csproj" />
   </ItemGroup>
 

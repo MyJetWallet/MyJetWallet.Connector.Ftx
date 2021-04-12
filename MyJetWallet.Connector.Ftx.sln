@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.github\workflows\release-api-client.yml = .github\workflows\release-api-client.yml
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FtxApi", "src\FtxApi\FtxApi.csproj", "{8EF241D2-4EE9-4225-BF44-70187E37FE5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,18 @@ Global
 		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|x64.Build.0 = Release|Any CPU
 		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|x86.ActiveCfg = Release|Any CPU
 		{4045544C-D474-4794-95D3-3DFC62BFB0EC}.Release|x86.Build.0 = Release|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Debug|x64.Build.0 = Debug|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Debug|x86.Build.0 = Debug|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Release|x64.ActiveCfg = Release|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Release|x64.Build.0 = Release|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Release|x86.ActiveCfg = Release|Any CPU
+		{8EF241D2-4EE9-4225-BF44-70187E37FE5D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
