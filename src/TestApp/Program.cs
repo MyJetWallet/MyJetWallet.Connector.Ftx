@@ -31,12 +31,18 @@ namespace TestApp
             Console.WriteLine(Environment.GetEnvironmentVariable("API-KEY"));
 
 
-            var client = new Client(Environment.GetEnvironmentVariable("API-KEY"), Environment.GetEnvironmentVariable("API-SECRET"));
+            await TestRestApi();
+        }
+
+        private static async Task TestRestApi()
+        {
+            var client = new Client(Environment.GetEnvironmentVariable("API-KEY"),
+                Environment.GetEnvironmentVariable("API-SECRET"));
             var api = new FtxRestApi(client);
 
             Console.WriteLine(" ====  account info ==== ");
             var info = await api.GetAccountInfoAsync();
-            Console.WriteLine(JsonSerializer.Serialize(info, new JsonSerializerOptions() { WriteIndented = true }));
+            Console.WriteLine(JsonSerializer.Serialize(info, new JsonSerializerOptions() {WriteIndented = true}));
             Console.WriteLine();
             Console.WriteLine();
 
@@ -44,7 +50,7 @@ namespace TestApp
 
             Console.WriteLine(" ====  order 1 ==== ");
             var order1 = await api.GetOrderStatusAsync("39134620341");
-            Console.WriteLine(JsonSerializer.Serialize(order1, new JsonSerializerOptions() { WriteIndented = true }));
+            Console.WriteLine(JsonSerializer.Serialize(order1, new JsonSerializerOptions() {WriteIndented = true}));
 
             Console.WriteLine();
             Console.WriteLine();
@@ -52,7 +58,7 @@ namespace TestApp
 
             Console.WriteLine(" ====  balances ==== ");
             var balances = await api.GetBalancesAsync();
-            Console.WriteLine(JsonSerializer.Serialize(balances, new JsonSerializerOptions() { WriteIndented = true }));
+            Console.WriteLine(JsonSerializer.Serialize(balances, new JsonSerializerOptions() {WriteIndented = true}));
 
             Console.WriteLine();
             Console.WriteLine();
@@ -65,22 +71,23 @@ namespace TestApp
             //var volume = side == SideType.buy ? size * (1m + takerFee) : ;
 
             Console.WriteLine($" ====  place: {newOrderClientId} ==== ");
-            var marketOrder = await api.PlaceOrderAsync("XRP/USD", SideType.buy, 0, OrderType.market, size, newOrderClientId, true);
-            Console.WriteLine(JsonSerializer.Serialize(marketOrder, new JsonSerializerOptions() { WriteIndented = true }));
+            var marketOrder =
+                await api.PlaceOrderAsync("XRP/USD", SideType.buy, 0, OrderType.market, size, newOrderClientId, true);
+            Console.WriteLine(JsonSerializer.Serialize(marketOrder, new JsonSerializerOptions() {WriteIndented = true}));
 
             Console.WriteLine();
             Console.WriteLine();
 
             Console.WriteLine($" ====  cancel order: {newOrderClientId} ==== ");
             var cancel = await api.CancelOrderByClientIdAsync(newOrderClientId);
-            Console.WriteLine(JsonSerializer.Serialize(cancel, new JsonSerializerOptions() { WriteIndented = true }));
+            Console.WriteLine(JsonSerializer.Serialize(cancel, new JsonSerializerOptions() {WriteIndented = true}));
 
             Console.WriteLine();
             Console.WriteLine();
 
             Console.WriteLine($" ====  order: {newOrderClientId} ==== ");
             var order3 = await api.GetOrderStatusByClientIdAsync(newOrderClientId);
-            Console.WriteLine(JsonSerializer.Serialize(order3, new JsonSerializerOptions() { WriteIndented = true }));
+            Console.WriteLine(JsonSerializer.Serialize(order3, new JsonSerializerOptions() {WriteIndented = true}));
 
             Console.WriteLine();
             Console.WriteLine();
@@ -100,12 +107,12 @@ namespace TestApp
 
             Console.WriteLine($" ====  fills ==== ");
             var fills = await api.GetFillsAsync(10, DateTime.UtcNow.Date);
-            Console.WriteLine(JsonSerializer.Serialize(fills, new JsonSerializerOptions() { WriteIndented = true }));
+            Console.WriteLine(JsonSerializer.Serialize(fills, new JsonSerializerOptions() {WriteIndented = true}));
 
             Console.WriteLine();
             Console.WriteLine();
         }
-        
+
         private static void TestWebSocket()
         {
             using ILoggerFactory loggerFactory =
