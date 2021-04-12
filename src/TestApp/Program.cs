@@ -25,13 +25,15 @@ namespace TestApp
 
         static async Task Main(string[] args)
         {
-            //TestWebSocket();
+            TestWebSocket();
 
             Console.WriteLine(Environment.GetEnvironmentVariable("API-SECRET"));
             Console.WriteLine(Environment.GetEnvironmentVariable("API-KEY"));
 
 
-            await TestRestApi();
+
+
+            //await TestRestApi();
         }
 
         private static async Task TestRestApi()
@@ -137,7 +139,29 @@ namespace TestApp
 
             //UseFtxWsMarkets(loggerFactory);
 
-            UseFtxWsOrderBooks(loggerFactory);
+            //UseFtxWsOrderBooks(loggerFactory);
+
+            UseFtxWsPrices(loggerFactory);
+        }
+
+        private static void UseFtxWsPrices(ILoggerFactory loggerFactory)
+        {
+            var client = new FtxWsPrices(loggerFactory.CreateLogger<FtxWsPrices>(), new[] { "BTC/USD" });
+            //client.ReceiveUpdates += ticker =>
+            //{
+            //    Console.WriteLine(JsonConvert.SerializeObject(ticker));
+            //    return Task.CompletedTask;
+            //};
+            client.Start();
+
+            var cmd = Console.ReadLine();
+            while (cmd != "exit")
+            {
+                var price = client.GetMarketStateById("BTC/USD");
+                Console.WriteLine(JsonConvert.SerializeObject(price));
+                Console.WriteLine(price.GetTime());
+                cmd = Console.ReadLine();
+            }
         }
 
         private static void UseFtxWsOrderBooks(ILoggerFactory loggerFactory)

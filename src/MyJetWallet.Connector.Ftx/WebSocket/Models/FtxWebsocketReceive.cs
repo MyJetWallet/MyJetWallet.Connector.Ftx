@@ -26,7 +26,7 @@ namespace MyJetWallet.Connector.Ftx.WebSocket.Models
         public T Data { get; set; }
     }
 
-    public class DataAction<T>
+    public class DataAction<T> 
     {
         [JsonProperty("data")]
         public T Data { get; set; }
