@@ -48,6 +48,13 @@ namespace TestApp
 
             var takerFee = info.Result.TakerFee;
 
+            Console.WriteLine(" ====  market info ==== ");
+            var markets = await api.GetMarketsAsync();
+            Console.WriteLine(JsonSerializer.Serialize(markets, new JsonSerializerOptions() { WriteIndented = true }));
+
+            Console.WriteLine();
+            Console.WriteLine();
+
             Console.WriteLine(" ====  order 1 ==== ");
             var order1 = await api.GetOrderStatusAsync("39134620341");
             Console.WriteLine(JsonSerializer.Serialize(order1, new JsonSerializerOptions() {WriteIndented = true}));

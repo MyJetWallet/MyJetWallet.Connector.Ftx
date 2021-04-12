@@ -39,5 +39,10 @@ namespace FtxApi.Models.Markets
 
         [JsonPropertyName("sizeIncrement")]
         public decimal? SizeIncrement { get; set; }
+
+        [JsonPropertyName("minProvideSize")]
+        public decimal? MinProvideSize { get; set; }
+
+        
     }
 }
