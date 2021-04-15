@@ -86,12 +86,12 @@ namespace MyJetWallet.Connector.Ftx.WsEngine
                 {
                     if (!ex.InnerExceptions.All(e => e is TaskCanceledException))
                     {
-                        _logger.LogError(ex, "Web socket {name} receive Exception", _name);
+                        _logger.LogWarning(ex, "Web socket {name} receive Exception", _name);
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Web socket {name} receive Exception", _name);
+                    _logger.LogWarning(ex, "Web socket {name} receive Exception", _name);
                 }
                 finally
                 {
@@ -220,7 +220,7 @@ namespace MyJetWallet.Connector.Ftx.WsEngine
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "Web socket {name} receive Exception from method OnReceive");
+                        _logger.LogWarning(ex, "Web socket {name} receive Exception from method OnReceive", _name);
                         throw;
                     }
 
@@ -232,7 +232,7 @@ namespace MyJetWallet.Connector.Ftx.WsEngine
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Web socket {name} receive Exception and closed");
+                _logger.LogWarning(ex, "Web socket {name} receive Exception and closed", _name);
                 await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
             }
         }
