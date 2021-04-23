@@ -88,6 +88,10 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
 
         private async Task Connect(ClientWebSocket webSocket)
         {
+            lock (_sync)
+            {
+                _data.Clear();
+            }
             if (_marketList == null)
                 await webSocket.SubscribeFtxChannel("markets");
             else

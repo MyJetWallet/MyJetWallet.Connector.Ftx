@@ -139,9 +139,9 @@ namespace TestApp
 
             //UseFtxWsMarkets(loggerFactory);
 
-            //UseFtxWsOrderBooks(loggerFactory);
+            UseFtxWsOrderBooks(loggerFactory);
 
-            UseFtxWsPrices(loggerFactory);
+            //UseFtxWsPrices(loggerFactory);
         }
 
         private static void UseFtxWsPrices(ILoggerFactory loggerFactory)
@@ -174,7 +174,6 @@ namespace TestApp
 
             client.ReceiveUpdates = book =>
             {
-                Console.WriteLine($"t1: {book.GetTime().UtcDateTime:O}");
                 if (log)
                     Console.WriteLine($"Receive updates for {book.id}");
 
@@ -212,7 +211,7 @@ namespace TestApp
                     var orderBook = client.GetOrderBookById(cmd);
 
                     if (orderBook != null)
-                        Console.WriteLine(JsonConvert.SerializeObject(orderBook, Formatting.Indented));
+                        Console.WriteLine($"{orderBook.id} {orderBook.GetTime():O}  {orderBook.asks.Count}|{orderBook.bids.Count}");
                     else
                         Console.WriteLine("Not found");
                 }
