@@ -20,20 +20,15 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
         private readonly Dictionary<string, FtxOrderBook> _data = new();
         private readonly object _sync = new();
 
-        private readonly IReadOnlyCollection<string> _marketList = null;
+        private readonly IReadOnlyCollection<string> _marketList;
 
-        public FtxWsOrderBooks(ILogger<FtxWsOrderBooks> logger)
+        public FtxWsOrderBooks(ILogger<FtxWsOrderBooks> logger, IReadOnlyCollection<string> marketList)
         {
             _logger = logger;
             _engine = new FtxWebsocketEngine(nameof(FtxWsMarkets), Url, 5000, 10000, logger)
             {
                 SendPing = SendPing, OnReceive = Receive, OnConnect = Connect
             };
-        }
-
-        public FtxWsOrderBooks(ILogger<FtxWsOrderBooks> logger, IReadOnlyCollection<string> marketList)
-            :this(logger)
-        {
             _marketList = marketList;
         }
 
@@ -110,14 +105,9 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
             {
                 _data.Clear();
             }
-            if (_marketList == null)
-                await webSocket.SubscribeFtxChannel("markets");
-            else
+            foreach (var market in _marketList)
             {
-                foreach (var market in _marketList)
-                {
-                    await webSocket.SubscribeFtxChannel("orderbook", market);
-                }
+                await webSocket.SubscribeFtxChannel("orderbook", market);
             }
         }
 
