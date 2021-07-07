@@ -86,6 +86,24 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
             await webSocket.SubscribeFtxChannel("orderbook", market);
         }
 
+        public async Task Subscribe(string market)
+        {
+            var webSocket = _engine.GetClientWebSocket();
+            if (webSocket == null)
+                return;
+
+            await webSocket.SubscribeFtxChannel("orderbook", market);
+        }
+
+        public async Task Unsubscribe(string market)
+        {
+            var webSocket = _engine.GetClientWebSocket();
+            if (webSocket == null)
+                return;
+
+            await webSocket.UnSubscribeFtxChannel("orderbook", market);
+        }
+
         private async Task Connect(ClientWebSocket webSocket)
         {
             lock (_sync)
