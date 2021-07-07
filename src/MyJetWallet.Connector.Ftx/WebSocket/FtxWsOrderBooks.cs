@@ -25,7 +25,7 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
         public FtxWsOrderBooks(ILogger<FtxWsOrderBooks> logger, IReadOnlyCollection<string> marketList)
         {
             _logger = logger;
-            _engine = new FtxWebsocketEngine(nameof(FtxWsMarkets), Url, 5000, 10000, logger)
+            _engine = new FtxWebsocketEngine(nameof(FtxWsOrderBooks), Url, 5000, 10000, logger)
             {
                 SendPing = SendPing, OnReceive = Receive, OnConnect = Connect
             };
