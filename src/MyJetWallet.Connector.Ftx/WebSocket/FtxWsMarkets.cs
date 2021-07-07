@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MyJetWallet.Connector.Ftx.WebSocket.Models;
 using MyJetWallet.Connector.Ftx.WsEngine;
+using MyJetWallet.Sdk.WebSocket;
 using Newtonsoft.Json;
 
 namespace MyJetWallet.Connector.Ftx.WebSocket
@@ -13,7 +14,7 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
     public class FtxWsMarkets: IDisposable
     {
         private readonly ILogger<FtxWsMarkets> _logger;
-        private WebsocketEngine _engine;
+        private FtxWebsocketEngine _engine;
 
         public static string Url { get; set; } = "wss://ftx.com/ws/";
 
@@ -23,10 +24,10 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
         public FtxWsMarkets(ILogger<FtxWsMarkets> logger)
         {
             _logger = logger;
-            _engine = new WebsocketEngine(nameof(FtxWsMarkets), Url, 5000, 10000, logger);
-            _engine.SendPing = SendPing;
-            _engine.OnReceive = Receive;
-            _engine.OnConnect = Connect;
+            _engine = new FtxWebsocketEngine(nameof(FtxWsMarkets), Url, 5000, 10000, logger)
+            {
+                SendPing = SendPing, OnReceive = Receive, OnConnect = Connect
+            };
         }
 
         public void Start()
@@ -107,7 +108,7 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
             {
                 var action = ReceiveUpdates;
                 if (action != null)
-                    await action?.Invoke(markets);
+                    await action.Invoke(markets);
             }
             catch (Exception ex)
             {

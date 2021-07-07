@@ -13,7 +13,7 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
     public class FtxWsOrderBooks: IDisposable
     {
         private readonly ILogger<FtxWsOrderBooks> _logger;
-        private WebsocketEngine _engine;
+        private FtxWebsocketEngine _engine;
 
         public static string Url { get; set; } = "wss://ftx.com/ws/";
 
@@ -25,10 +25,10 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
         public FtxWsOrderBooks(ILogger<FtxWsOrderBooks> logger)
         {
             _logger = logger;
-            _engine = new WebsocketEngine(nameof(FtxWsMarkets), Url, 5000, 10000, logger);
-            _engine.SendPing = SendPing;
-            _engine.OnReceive = Receive;
-            _engine.OnConnect = Connect;
+            _engine = new FtxWebsocketEngine(nameof(FtxWsMarkets), Url, 5000, 10000, logger)
+            {
+                SendPing = SendPing, OnReceive = Receive, OnConnect = Connect
+            };
         }
 
         public FtxWsOrderBooks(ILogger<FtxWsOrderBooks> logger, IReadOnlyCollection<string> marketList)
@@ -203,7 +203,7 @@ namespace MyJetWallet.Connector.Ftx.WebSocket
             {
                 var action = ReceiveUpdates;
                 if (action != null)
-                    await action?.Invoke(orderBook);
+                    await action.Invoke(orderBook);
             }
             catch (Exception ex)
             {

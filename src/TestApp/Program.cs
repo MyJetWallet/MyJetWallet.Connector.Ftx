@@ -274,11 +274,11 @@ namespace TestApp
 
         private static void UseWebSocket(ILogger<Program> logger)
         {
-            var manager = new WebsocketEngine("FTX", "wss://ftx.com/ws/", 1000, 3000, logger);
+            var manager = new FtxWebsocketEngine("FTX", "wss://ftx.com/ws/", 1000, 3000, logger)
+            {
+                OnConnect = ConnectFtx, SendPing = SendPingFtx, OnReceive = ReceiveFromFtx
+            };
 
-            manager.OnConnect = ConnectFtx;
-            manager.SendPing = SendPingFtx;
-            manager.OnReceive = ReceiveFromFtx;
 
             manager.Start();
 
