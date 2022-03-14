@@ -24,7 +24,9 @@ namespace FtxApi
         private readonly HMACSHA256 _hashMaker;
 
         private long _nonce;
-      
+        
+        private readonly string _urlEncodedSubAccount;
+
         public FtxRestApi(Client client)
         {
             _client = client;
@@ -35,6 +37,11 @@ namespace FtxApi
             };
 
             _hashMaker = new HMACSHA256(Encoding.UTF8.GetBytes(_client.ApiSecret));
+            
+            if (!string.IsNullOrEmpty(_client.SubAccount))
+            {
+                _urlEncodedSubAccount = Uri.EscapeDataString(_client.SubAccount);
+            }
         }
 
         #region Coins
@@ -566,6 +573,11 @@ namespace FtxApi
             request.Headers.Add("FTX-KEY", _client.ApiKey);
             request.Headers.Add("FTX-SIGN", sign);
             request.Headers.Add("FTX-TS", _nonce.ToString());
+            
+            if (!string.IsNullOrEmpty(_urlEncodedSubAccount))
+            {
+                request.Headers.Add("FTX-SUBACCOUNT", _urlEncodedSubAccount);
+            }
 
             var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
 
