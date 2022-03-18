@@ -444,6 +444,17 @@ namespace FtxApi
 
             return JsonSerializer.Deserialize<FtxResult<List<Fill>>>(result);
         }
+        
+        public async Task<FtxResult<List<Fill>>> GetFillsAsync(decimal orderId)
+        {
+            var resultString = $"api/fills?orderId={orderId}";
+
+            var sign = GenerateSignature(HttpMethod.Get, $"/{resultString}", "");
+
+            var result = await CallAsyncSign(HttpMethod.Get, resultString, sign);
+
+            return JsonSerializer.Deserialize<FtxResult<List<Fill>>>(result);
+        }
 
         #endregion
 
