@@ -456,19 +456,9 @@ namespace FtxApi
             return JsonSerializer.Deserialize<FtxResult<List<Fill>>>(result);
         }
         
-        public async Task<FtxResult<List<Fill>>> GetFillsAsync(int limit, DateTime? start = null, DateTime? end = null)
+        public async Task<FtxResult<List<Fill>>> GetFillsAsync(DateTime start, DateTime end)
         {
-            var resultString = $"api/fills?limit={limit}";
-
-            if (start.HasValue)
-            {
-                resultString += $"&start_time={Util.Util.GetSecondsFromEpochStart(start.Value)}";
-            }
-            
-            if (end.HasValue)
-            {
-                resultString += $"&end_time={Util.Util.GetSecondsFromEpochStart(end.Value)}";
-            }
+            var resultString = $"api/fills?start_time={Util.Util.GetSecondsFromEpochStart(start)}&end_time={Util.Util.GetSecondsFromEpochStart(end)}";
 
             var sign = GenerateSignature(HttpMethod.Get, $"/{resultString}", "");
 
