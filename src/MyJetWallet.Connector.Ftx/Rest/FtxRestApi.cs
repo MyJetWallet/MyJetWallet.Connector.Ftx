@@ -350,6 +350,17 @@ namespace FtxApi
 
             return JsonSerializer.Deserialize<FtxResult<TriggerOrder>>(result);
         }
+        
+        public async Task<FtxResult<List<Order>>> GetOrdersAsync(string instrument)
+        {
+            var path = $"api/orders?market={instrument}";
+
+            var sign = GenerateSignature(HttpMethod.Get, $"/api/orders?market={instrument}", "");
+           
+            var result = await CallAsyncSign(HttpMethod.Get, path, sign);
+
+            return JsonSerializer.Deserialize<FtxResult<List<Order>>>(result);
+        }
 
         public async Task<FtxResult<List<Order>>> GetOpenOrdersAsync(string instrument)
         {
@@ -437,6 +448,27 @@ namespace FtxApi
         public async Task<FtxResult<List<Fill>>> GetFillsAsync(int limit, DateTime start)
         {
             var resultString = $"api/fills?limit={limit}&start_time={Util.Util.GetSecondsFromEpochStart(start)}";
+
+            var sign = GenerateSignature(HttpMethod.Get, $"/{resultString}", "");
+
+            var result = await CallAsyncSign(HttpMethod.Get, resultString, sign);
+
+            return JsonSerializer.Deserialize<FtxResult<List<Fill>>>(result);
+        }
+        
+        public async Task<FtxResult<List<Fill>>> GetFillsAsync(int limit, DateTime? start = null, DateTime? end = null)
+        {
+            var resultString = $"api/fills?limit={limit}";
+
+            if (start.HasValue)
+            {
+                resultString += $"&start_time={Util.Util.GetSecondsFromEpochStart(start.Value)}";
+            }
+            
+            if (end.HasValue)
+            {
+                resultString += $"&end_time={Util.Util.GetSecondsFromEpochStart(end.Value)}";
+            }
 
             var sign = GenerateSignature(HttpMethod.Get, $"/{resultString}", "");
 
