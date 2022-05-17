@@ -253,6 +253,17 @@ namespace FtxApi
             return JsonSerializer.Deserialize<FtxResult<List<WithdrawalHistory>>>(result);
         }
 
+        public async Task<FtxResult<List<WithdrawalHistory>>> GetWithdrawalHistoryAsync(DateTime start, DateTime end)
+        {
+            var resultString = $"api/wallet/withdrawals?start_time={Util.Util.GetSecondsFromEpochStart(start)}&end_time={Util.Util.GetSecondsFromEpochStart(end)}";
+
+            var sign = GenerateSignature(HttpMethod.Get, resultString, "");
+            
+            var result = await CallAsyncSign(HttpMethod.Get, resultString, sign);
+
+            return JsonSerializer.Deserialize<FtxResult<List<WithdrawalHistory>>>(result);
+        }
+        
         public async Task<FtxResult<WithdrawalHistory>> RequestWithdrawalAsync(string coin, decimal size, string addr, string tag, string pass, string code)
         {
             var resultString = $"api/wallet/withdrawals";

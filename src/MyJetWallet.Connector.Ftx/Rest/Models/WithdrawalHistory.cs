@@ -30,5 +30,11 @@ namespace FtxApi.Models
 
         [JsonPropertyName("txid")]
         public string TxId { get; set; }
+        
+        [JsonPropertyName("notes")]
+        public string Notes { get; set; }
+        
+        [JsonPropertyName("method")]
+        public string Method { get; set; }
     }
 }
