@@ -257,7 +257,7 @@ namespace FtxApi
         {
             var resultString = $"api/wallet/withdrawals?start_time={Util.Util.GetSecondsFromEpochStart(start)}&end_time={Util.Util.GetSecondsFromEpochStart(end)}";
 
-            var sign = GenerateSignature(HttpMethod.Get, resultString, "");
+            var sign = GenerateSignature(HttpMethod.Get, $"/{resultString}", "");
             
             var result = await CallAsyncSign(HttpMethod.Get, resultString, sign);
 
